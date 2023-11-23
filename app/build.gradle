@@ -36,7 +36,10 @@ sourceSets {
 
 tasks.named('jar') {
     manifest {
-        attributes('Implementation-Title': project.name)
+        attributes(
+        	'Main-Class': 'jcircuit.App',
+        	'Implementation-Title': project.name
+    	)
     }
     archiveBaseName = 'jcircuit'
 }

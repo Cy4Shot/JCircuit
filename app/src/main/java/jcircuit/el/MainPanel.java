@@ -500,6 +500,7 @@ public class MainPanel extends JPanel {
 		return img;
 	}
 
+	// Stop clipping when exporting.
 	@Override
 	public int getWidth() {
 		if (exporting)

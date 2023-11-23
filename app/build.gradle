@@ -1,0 +1,35 @@
+plugins {
+    id 'application'
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	implementation 'commons-io:commons-io:2.15.0'
+	implementation 'org.apache.commons:commons-lang3:3.13.0'
+	implementation 'com.google.code.gson:gson:2.10.1'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+application {
+    mainClass = 'jcircuit.App'
+}
+
+sourceSets {
+        main {
+                java {
+                        srcDirs= ["src/main/java"]
+                }
+                resources {
+                        srcDirs= ["src/main/resources"]
+                }
+        }
+}

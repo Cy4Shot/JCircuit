@@ -1,4 +1,5 @@
 plugins {
+	id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'application'
     id 'java'
 }
@@ -42,4 +43,14 @@ tasks.named('jar') {
     	)
     }
     archiveBaseName = 'jcircuit'
+}
+
+shadowJar {
+  manifest {
+    attributes(
+    	'Main-Class': 'jcircuit.App',
+    	'Implementation-Title': project.name
+	)
+  }
+  archiveFileName = "jcircuit.jar"
 }

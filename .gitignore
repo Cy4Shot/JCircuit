@@ -26,5 +26,6 @@ replay_pid*
 .gradle/*
 .settings/*
 */.settings/*
+app/build/*
 gradle/*
 .project

@@ -13,8 +13,6 @@ dependencies {
 	implementation 'com.google.code.gson:gson:2.10.1'
 }
 
-archiveBaseName = 'jcircuit'
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -34,4 +32,8 @@ sourceSets {
                         srcDirs= ["src/main/resources"]
                 }
         }
+}
+
+jar {
+    baseName 'jcircuit'
 }

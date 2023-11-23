@@ -38,4 +38,5 @@ tasks.named('jar') {
     manifest {
         attributes('Implementation-Title': project.name)
     }
+    archiveName 'jcircuit.jar'
 }

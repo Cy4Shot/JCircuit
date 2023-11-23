@@ -33,4 +33,4 @@ jobs:
          gradle-version: 8.4
 
     - name: Build
-      runs: ./gradlew build
+      run: ./gradlew build

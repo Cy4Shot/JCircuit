@@ -11,6 +11,7 @@
 - **Select**: Move logic gates and wire turning points.
 - **Wire**: Create new wires and wire turning points by dragging.
 - **Node**: Add nodes at wire intersections.
+- **Text**: Add text gates wth LaTeX rendering.
 - **Place** various logic gates.
 - **Create**: Make new custom gates with inputs and outputs.
 - **Delete**: Delete logic gates and wire turning points. Deleting a gate will delete connected wires.

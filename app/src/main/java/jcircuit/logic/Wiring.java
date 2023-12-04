@@ -5,7 +5,8 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 // Use MutablePair<Integer, Integer> since this doesn't represent a position
-public record Wiring(MutablePair<Integer, Integer> input, List<Vector2i> turns, MutablePair<Integer, Integer> output) {
+public record Wiring(MutablePair<Integer, Integer> input, List<MutablePair<Vector2i, Boolean>> turns,
+		MutablePair<Integer, Integer> output) {
 	public void updateDelete(Integer deleted) {
 		if (input.getLeft() >= deleted) {
 			input.setLeft(input.getLeft() - 1);
@@ -14,12 +15,16 @@ public record Wiring(MutablePair<Integer, Integer> input, List<Vector2i> turns, 
 			output.setLeft(output.getLeft() - 1);
 		}
 	}
-	
+
 	public boolean isAOutput(List<GateInstance> gates) {
 		return gates.get(input.getLeft()).gate().isOutput(input.getRight());
 	}
-	
+
 	public boolean isBOutput(List<GateInstance> gates) {
 		return gates.get(output.getLeft()).gate().isOutput(output.getRight());
+	}
+
+	public void toggleNode(int i) {
+		this.turns.get(i).setRight(!this.turns.get(i).right);
 	}
 }

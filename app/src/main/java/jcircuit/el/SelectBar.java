@@ -1,5 +1,6 @@
 package jcircuit.el;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -25,6 +26,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
@@ -40,6 +42,7 @@ import com.google.gson.stream.JsonReader;
 
 import jcircuit.App;
 import jcircuit.MainFrame;
+import jcircuit.logic.CustomGate;
 import jcircuit.logic.Tool;
 
 public class SelectBar extends JPanel {
@@ -149,10 +152,10 @@ public class SelectBar extends JPanel {
 
 	public void select(Tool tool) {
 
-		// TODO: Implement TEXT!
-		if (tool == Tool.TEXT) {
-			JOptionPane.showMessageDialog(frame, "This hasn't been implemented yet.");
-			select(Tool.EMPTY);
+		if (tool == Tool.ADD) {
+			new CustomGateEditor((i, o, n) -> {
+				App.frame.getMainPanel().customGates.add(new CustomGate(i, o, n));
+			});
 			return;
 		}
 
@@ -161,7 +164,7 @@ public class SelectBar extends JPanel {
 		if (tool == Tool.EMPTY) {
 			this.selectedText.setText("No tool selected");
 		} else {
-			if (tool.isGate) {
+			if (tool.isGate()) {
 				this.selectedText.setText("Selected: Place " + tool.name());
 			} else {
 				this.selectedText.setText("Selected: " + StringUtils.capitalize(tool.name().toLowerCase()));
@@ -180,7 +183,7 @@ public class SelectBar extends JPanel {
 		public SelectBarItem(Tool tool) {
 			super();
 
-			String folder = tool.isGate ? "/gate/" : "/tool/";
+			String folder = tool.isGate() ? "/gate/" : "/tool/";
 			ImageIcon img = new ImageIcon(App.class.getResource(folder + tool.name().toLowerCase() + ".png"));
 			Image scaled = img.getImage().getScaledInstance(IMAGE_SIZE, IMAGE_SIZE, Image.SCALE_SMOOTH);
 			setIcon(new ImageIcon(scaled));
@@ -276,6 +279,9 @@ public class SelectBar extends JPanel {
 			textarea.setEditable(false);
 			textarea.setText(latex);
 			textarea.setBorder(new EmptyBorder(10, 10, 10, 10));
+			JScrollPane area = new JScrollPane(textarea);
+			Dimension d = area.getPreferredSize();
+			area.setPreferredSize(new Dimension(Math.min(d.width, 600), Math.min(400, d.height)));
 
 			JLabel sep = new JLabel();
 			sep.setBorder(new EmptyBorder(0, 0, 10, 0));
@@ -296,24 +302,25 @@ public class SelectBar extends JPanel {
 			cp.setBorder(new EmptyBorder(0, 0, 10, 0));
 
 			panel.add(title);
-			panel.add(textarea);
+			panel.add(area);
 			panel.add(sep);
 			panel.add(cp);
 
 			layout.setVerticalGroup(layout.createSequentialGroup()
 					.addComponent(title, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE,
 							GroupLayout.PREFERRED_SIZE)
-					.addComponent(textarea, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE,
+					.addComponent(area, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE,
 							GroupLayout.PREFERRED_SIZE)
 					.addComponent(sep, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE,
 							GroupLayout.PREFERRED_SIZE)
 					.addComponent(cp, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE,
 							GroupLayout.PREFERRED_SIZE));
-			layout.setHorizontalGroup(layout.createParallelGroup().addComponent(title).addComponent(textarea)
+			layout.setHorizontalGroup(layout.createParallelGroup().addComponent(title).addComponent(area)
 					.addComponent(sep).addComponent(cp));
 
 			JOptionPane.showConfirmDialog(null, panel, "Export", -1);
 		} else if (result == JOptionPane.NO_OPTION) {
+			select(Tool.EMPTY);
 			JFileChooser chooser = new JFileChooser();
 			FileFilter filter = new FileNameExtensionFilter("Portable Network Graphics (PNG)", new String[] { "png" });
 			chooser.setFileFilter(filter);

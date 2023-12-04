@@ -9,6 +9,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class App {
+	
+	public static MainFrame frame;
 
 	public static void main(String[] args) {
 		// Set Look and Feel
@@ -20,7 +22,7 @@ public class App {
 		}
 		
 		// Create mainframe
-		MainFrame frame = new MainFrame();
+		frame = new MainFrame();
 		frame.setTitle("JCircuit");
 		frame.setBackground(new Color(39, 174, 96));
 		frame.pack();
